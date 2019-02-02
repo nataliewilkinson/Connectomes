@@ -2,6 +2,9 @@ function[con1, con2, deg1, deg2]= PermConnectFunc(Tvars, g1, g2,NetThresh)
 %csvfile contains the volumes at the particular threshold
 %g1 is the membership for Nos2 based on permutations
 %g2 is for cvns based on permutations
+%con1 and con2 are the connectivty matrices for group1 and group2
+%deg1 and deg2 are the number of non zero entries in con1 and con2, i.e.
+%for gen1 and gen2
 
 ControlVol= Tvars(:,g1);
 ControlVol=ControlVol';
@@ -9,9 +12,9 @@ ADVol=Tvars(:,g2);
 ADVol=ADVol';
 
 CTRL100=corr(ControlVol);
-%csvwrite(['C:\Users\nswso\OneDrive\Documents\Research\CVNconnectivity\','ControlVol.csv'],ControlVol);
+%csvwrite(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\\','ControlVol.csv'],ControlVol);
 AD100=corr(ADVol);
-%csvwrite(['C:\Users\nswso\OneDrive\Documents\Research\CVNconnectivity\','ADVol.csv'],ADVol);
+%csvwrite(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\\','ADVol.csv'],ADVol);
 
 con1=CTRL100;
 con2=AD100;
@@ -37,8 +40,8 @@ con2out(R)=0;
 con2out=reshape(con2out,332,332);
 
 
-deg1=numel(find(con1out));
-deg2=numel(find(con2out));
+deg1=numel(find(abs(con1out)>0.50));
+deg2=numel(find(abs(con2out)>0.50));
 end
 %% CHECK! Shouldn't have 12 values for threshold so don't index it? 
 % Make parameters for permconnectfunc or connectperm to run at different

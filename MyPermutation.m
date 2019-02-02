@@ -1,6 +1,6 @@
 % compare whole connectomes
-AD_Hc_con=csvread('C:\Users\nswso\OneDrive\Documents\Research\CVNconnectivity\ADVol_0.5.csv');
-NOS_Hc_con=csvread('C:\Users\nswso\OneDrive\Documents\Research\CVNconnectivity\ControlVol_0.5.csv');
+AD_Hc_con=csvread('C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\ADVol_0.5.csv');
+NOS_Hc_con=csvread('C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\ControlVol_0.5.csv');
 
 mysize=size(AD_Hc_con);
 nrows=mysize(1);

@@ -1,6 +1,6 @@
 %% Pixel Graph
 %call actual data from excel
-Myfile='C:\Users\nswso\OneDrive\Documents\Research\CVNconnectivity\NatMasterSheetCVN.xlsx'
+Myfile='C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\NatMasterSheetCVN.xlsx';
 % Extract Full Matrix
 T=readtable(Myfile);
 Tvars=T(3:end,2:end); %Volumes
@@ -24,22 +24,26 @@ ADVol=ADVol';
 
 
 CTRL100=corr(ControlVol);
-csvwrite(['C:\Users\nswso\OneDrive\Documents\Research\CVNconnectivity\','ControlVol.csv'],ControlVol);
+csvwrite(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\','ControlVol.csv'],ControlVol);
 
 AD100=corr(ADVol);
-csvwrite(['C:\Users\nswso\OneDrive\Documents\Research\CVNconnectivity\','ADVol.csv'],ADVol);
+csvwrite(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\','ADVol.csv'],ADVol);
 
-
+%% Determining P-Values
 allmyindices=[Indexcontrol, IndexAD];
 
 p1=0;
 p2=0;
-numperms=10;
-NetThreshVals=[0.25 0.5 .9]
-for k=1:3
+numperms=2;
+NetThreshVals=[0.05:0.01:0.25]
+degk1=zeros(1,numel(NetThreshVals));
+degk2=zeros(1,numel(NetThreshVals));
+for k=1:numel(NetThreshVals)
     NetThresh=NetThreshVals(k)
     [con1, con2, deg1, deg2]=PermConnectFunc(Tvars, Indexcontrol, IndexAD, NetThresh);
 tcan=deg1-deg2;
+degk1(k)=deg1;
+degk2(k)=deg2;
 %save deg1 and deg2 values for each network density so eventually we can
 %graph it
 for i=1:numperms %(eventually will go from 1:1000)
@@ -48,13 +52,17 @@ for i=1:numperms %(eventually will go from 1:1000)
     [con1, con2, deg1, deg2]=PermConnectFunc(Tvars, g1, g2, NetThresh);
     t=deg1-deg2;
         if t>tcan
-        p1=p1+1;
+        p1=p1+1; %-
     else 
-        p2=p2+1;
-        %p= pval
+        p2=p2+1; %- 
+        %p= pval need?
     end
 end
 p1total(k)=p1/numperms
 p2total(k)=p2/numperms
 end
 %Get rid of diagonal element in connectome 1. 
+save('degk1')
+save('degk2')
+
+% explain what was done?
