@@ -62,8 +62,8 @@ for n=0:.05:.5
     VCTRL100_10=reshape(VCTRL100_10,332,332);
     %figure(2+k)
     %imagesc(VCTRL100_10)
-    mycolormap=jet(11)
-    mycolormap(6, :)=[1 1 1]
+    mycolormap=jet(11);
+    mycolormap(6, :)=[1 1 1];
     colormap(mycolormap)
     csvwrite(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\'...
         ,'ControlVol_' , num2str(n), '.csv'],VCTRL100_10);
@@ -72,7 +72,7 @@ end
 %AD100
 m=1
 for n=0:0.05:0.5
-MyThresh2(m)=ceil((1-n)*(332*332-332))
+MyThresh2(m)=ceil((1-n)*(332*332-332));
 VAD100=AD100(:);
 [val2,myindex2]=sort(abs(VAD100), 'ascend');
 MyNewThresh2=VAD100(myindex2(1:MyThresh2(m)));
@@ -83,9 +83,9 @@ VAD100_10(R)=0;
 VAD100_10=reshape(VAD100_10,332,332);
 figure(14+m)
 imagesc(VAD100_10)
-mycolormap=jet(11)
-mycolormap(6, :)=[1 1 1]
-colormap(mycolormap)
+mycolormap=jet(11);
+mycolormap(6, :)=[1 1 1];
+colormap(mycolormap);
 csvwrite(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\'...
         ,'ADVol_' , num2str(n), '.csv'],VAD100_10);
 end

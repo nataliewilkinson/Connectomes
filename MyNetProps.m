@@ -28,7 +28,7 @@ CIJ2= csvread(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivi
 end
 csvwrite(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\','DEG2' ,'.csv'], mydeg2);
 
-[h,p, ci, stats]= ttest2(mydeg1', mydeg2')
+[h, p, ci, stats]= ttest2(mydeg1', mydeg2')
 
 
 %% Hippocampus
@@ -40,24 +40,18 @@ hold on
 plot(myseq', hcAD,'r*')
 hold off
 title('Hippocampus')
-% save image for this AND fimbria: (did it before but forget for images)...
-% csvwrite(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\','Hippocampus.csv'], hcNOS);
-
-
-
 
 %% Graphing Different Regions
 
 myindex=[18 29 30 38 40 41 50 51 54 103 104 117 120 121 122 124 144 249 290] % continue it...
 mylabels={'Cg32-R' , 'FrA-L', 'FrA-R', 'M1-R', 'M2-R', 'MO', 'S1BF-R', 'Hippocampus', ...
     'Primary Somatosensory Cortex-Forebrain', 'Dorsal Tenia Tecta-L', ...
-    'Dorsal Tenia Tecta-R','Hypothalamus', 'Preoptic Telencephalon','121-Fimbria',...
+    'Dorsal Tenia Tecta-R','Hypothalamus', 'Preoptic Telencephalon','Fimbria',...
     'Subthalamic Nucleus','Septum', 'Thalamus',...
     'Lateral Olfactory Tract', 'Superior Cerebellar Peduncle'} 
-%actual names??- Fimbria 121?- names didn't match up on google form
+%actual names??- names didn't match up on google form
 
 for i=1:numel(myindex)
-    
     hcNOS=mydeg1(:,myindex(i))
     hcAD=mydeg2(:,myindex(i))
 figure(i)
@@ -67,12 +61,13 @@ plot(myseq', hcAD,'r*')
 hold off
 
 % Interpolation
-xp=[0:0.01:0.5]
-avg= (hcAD+hcNOS)./2
-yp=interp1(myseq', avg, xp, 'linear')
+mydeg1new=mydeg1(:,i)
+mydeg2new=mydeg2(:,i)
+plot(myseq, mydeg1new, 'r.-')
 hold on
-plot(xp,yp,'m--')
+plot(myseq,mydeg2new, 'b-o')
 hold off
+
 
 % Title
 mytitle=char(mylabels(i))
