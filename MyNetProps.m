@@ -6,13 +6,12 @@ kmax=numel(myseq);
 mydeg1=zeros(kmax, 332);
 for k=1:kmax
     n=myseq(k);
-CIJ1= csvread(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\'...
-        ,'ControlVol_' , num2str(n), '.csv']);
+CIJ1= csvread(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\',...
+    'ControlVol_' , num2str(n), '.csv']);
   [id,od,deg1] = degrees_dir(CIJ1) ; 
   mydeg1(k,:)=deg1;
 end
-csvwrite(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\',...
-    'DEG1' ,'.csv'], mydeg1);
+csvwrite(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\','DEG1' ,'.csv'], mydeg1);
 
 mypath='C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\'
 
@@ -31,25 +30,13 @@ csvwrite(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\',
 [h, p, ci, stats]= ttest2(mydeg1', mydeg2')
 
 
-%% Hippocampus
-hcNOS=mydeg1(:,51)
-hcAD=mydeg2(:,51)
-figure(1)
-plot(myseq', hcNOS,'bo')
-hold on
-plot(myseq', hcAD,'r*')
-hold off
-title('Hippocampus')
-
 %% Graphing Different Regions
-
-myindex=[18 29 30 38 40 41 50 51 54 103 104 117 120 121 122 124 144 249 290] % continue it...
-mylabels={'Cg32-R' , 'FrA-L', 'FrA-R', 'M1-R', 'M2-R', 'MO', 'S1BF-R', 'Hippocampus', ...
-    'Primary Somatosensory Cortex-Forebrain', 'Dorsal Tenia Tecta-L', ...
-    'Dorsal Tenia Tecta-R','Hypothalamus', 'Preoptic Telencephalon','Fimbria',...
-    'Subthalamic Nucleus','Septum', 'Thalamus',...
-    'Lateral Olfactory Tract', 'Superior Cerebellar Peduncle'} 
-%actual names??- names didn't match up on google form
+clf
+myindex=[42 43 51 59 62 65 81 91 92 119 120 121 122 124]%[18 29 30 38 40 41 50 51 54 103 104 117 120 121 122 124 144 249 290] % continue it...
+mylabels= {'Caudomedial Entorhinal Cortex', 'Dorsal Intermediate Entorhinal Cortex',...
+    'Hippocampus', 'Hypothalamus', 'Septum', 'Amygdala', 'Superior Colliculus',...
+    'Cerebellum', 'Dentate_Cerebellum',    'Optic Tracts', 'Fimbria',...
+    'Corpus Callosum', 'Fornix', 'Cingulum'}
 
 for i=1:numel(myindex)
     hcNOS=mydeg1(:,myindex(i))
@@ -59,6 +46,7 @@ plot(myseq', hcNOS,'bo')
 hold on
 plot(myseq', hcAD,'r*')
 hold off
+
 
 % Interpolation
 mydeg1new=mydeg1(:,i)
@@ -76,6 +64,7 @@ title(mytitle)
 filename = strcat(mypath, mytitle, '.png'); 
 print(filename,'-dpng','-r300');
 
+export_fig(mylabels(i), '-png', '-r200')
 end
 
 

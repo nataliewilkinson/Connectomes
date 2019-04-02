@@ -26,96 +26,79 @@ ADVol=ADVol';
 addpath(genpath('C:\Users\nswso\OneDrive\Documents\MATLAB\BCT\'))
 
 
-% % %% Control
-% % myseq=0:0.05:0.5;
-% % kmax=numel(myseq);
-% % mydeg1=zeros(kmax, 332);
-% % for k=1:kmax
-% %     n=myseq(k);
-% % CIJ1= csvread(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\'...
-% %         ,'ControlVol_' , num2str(n), '.csv']);
-% %   [id,od,deg1] = degrees_dir(CIJ1) ; 
-% %   mydeg1(k,:)=deg1;
-% % end
-% % csvwrite(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\',...
-% %     'DEG1' ,'.csv'], mydeg1);
-% % 
-% % mypath='C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\'
-% % 
-% % %% AD
-% % myseq=0:0.05:0.5;
-% % mmax=numel(myseq);
-% % mydeg2=zeros(mmax, 332);
-% % for m=1:mmax
-% %     n=myseq(m);
-% % CIJ2= csvread(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\','ADVol_' , num2str(n), '.csv']);
-% %   [id,od,deg2] = degrees_dir(CIJ2) ; 
-% %   mydeg2(m,:)=deg2;
-% % end
-% % csvwrite(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\','DEG2' ,'.csv'], mydeg2);
-% % 
-% % [h, p, ci, stats]= ttest2(mydeg1', mydeg2')
-% % 
-% % 
-% % %% Hippocampus
-% % hcNOS=mydeg1(:,51)
-% % hcAD=mydeg2(:,51)
-% % figure(1)
-% % plot(myseq', hcNOS,'bo')
-% % hold on
-% % plot(myseq', hcAD,'r*')
-% % hold off
-% % title('Hippocampus')
-
 %% Graphing Different Regions
+myindex=[42 43 51 59 62 65 81 91 92 119 120 121 122 124]
+mylabels= {'Caudomedial Entorhinal Cortex', 'Dorsal Intermediate Entorhinal Cortex',...
+    'Hippocampus', 'Hypothalamus', 'Septum', 'Amygdala', 'Superior Colliculus',...
+    'Cerebellum', 'Dentate_Cerebellum',    'Optic Tracts', 'Fimbria',...
+    'Corpus Callosum', 'Fornix', 'Cingulum'}
 
-myindex=[18 29 30 38 40 41 50 51 54 103 104 117 120 121 122 124 144 249 290] % continue it...
-mylabels={'Cg32-R' , 'FrA-L', 'FrA-R', 'M1-R', 'M2-R', 'MO', 'S1BF-R', 'Hippocampus', ...
-    'Primary Somatosensory Cortex-Forebrain', 'Dorsal Tenia Tecta-L', ...
-    'Dorsal Tenia Tecta-R','Hypothalamus', 'Preoptic Telencephalon','Fimbria',...
-    'Subthalamic Nucleus','Septum', 'Thalamus',...
-    'Lateral Olfactory Tract', 'Superior Cerebellar Peduncle'} 
-%actual names??- names didn't match up on google form
 
 p1=0;
 p2=0;
+p1r=0;
+p2r=0;
 numperms=100 ;
 NetThreshVals=[0.05:0.05:0.5];
+pparametrictotal=zeros( 332,numel(NetThreshVals))
+
 degk1=zeros(1,numel(NetThreshVals));
 degk2=zeros(1,numel(NetThreshVals));
+
+for j=1:numel(myindex) %index of region
 for k=1:numel(NetThreshVals); %loop over net thresh
     NetThresh=NetThreshVals(k);
     [con1, con2, deg1, deg2]=PermConnectFunc(Tvars, Indexcontrol, IndexAD, NetThresh);
     tcan=abs(deg1-deg2)
+%number of non zero entries in teh correlation matrices - global values
     degk1(k)=deg1;
     degk2(k)=deg2;
-    for i=1:numperms; %(eventually will go from 1:1000)
-        g1=allmyindices(randperm(24, 11));
-        g2=setdiff(allmyindices, g1);
-        [con1, con2, deg1, deg2]=PermConnectFunc(Tvars, g1, g2, NetThresh);
-        mydeg1=con1;
-        mydeg2=con2;
+    %global degrees
+   
     
-            for j=8%:numel(myindex) %loop over regions
+    
+   %for i=1:numperms; %(eventually will go from 1:1000)
+%         g1=allmyindices(randperm(24, 11));
+%         g2=setdiff(allmyindices, g1);
+%         [con1, con2, deg1, deg2]=PermConnectFunc(Tvars, g1, g2, NetThresh);
+      %  mydeg1=con1;
+      %  mydeg2=con2;
+       
+    
+            %for j=1:1; %numel(myindex) %loop over regions
+               
                 % go through list plugging in the number regions in for j
                 % to get the p-values for each region
-                hcNOS=mydeg1(:,myindex(j));
-                hcAD=mydeg2(:,myindex(j));
-                 t=abs(deg1-deg2);   
+hcNOS=con1(:,myindex(j));
+hcAD=con2(:,myindex(j));
+%tcanregion(myindex(j))=numel(find(hcNOS))-numel(find(hcAD));
+%                 tregion(myindex(j))=numel(find(hcNOS))-numel(find(hcAD))
+%                 t=abs(deg1-deg2);   %global degree
+%                  
+%                   if t>tcan
+%                     p1=p1+1; %-
+%                   else 
+%                     p2=p2+1; %- 
+%                   end
+%                  p1total(k)=p1/numperms
+%                  
+%                  if tregion>tcanregion
+%                     p1r=p1r+1; %-
+%                   else 
+%                     p2r=p2r+1; %- 
+%                   end
+%                  p1totalregion(k)=p1r/numperms
                  
-                  if t>tcan
-                    p1=p1+1; %-
-                  else 
-                    p2=p2+1; %- 
-                  end
-                 p1total(k)=p1/numperms
-            end
+                 
+           % end
 
        
-end
+%end
 
-
+ [h pparametrictotal(myindex(j),k) ci stats]=ttest(hcNOS',hcAD');
 end
+end
+ [h pparam ci stats]=ttest(degk1,degk2) ; 
 
 
 %% To Do
