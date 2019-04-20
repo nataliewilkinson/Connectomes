@@ -35,22 +35,32 @@ csvwrite(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\',
 clf
 figure(1)
 imagesc(CTRL100)
-colormap(jet)
+ colormap(jet)
 axis equal
 colorbar
 title('Correlation of Control Volumes')
 
 figure(2)
 imagesc(AD100)
-colormap(jet)
+ colormap(jet)
 axis equal
 colorbar
 title('Correlation of AD Volumes')
+
+% Regions
+
+myindex=[42 43 51 59 62 65 81 91 92 119 120 121 122 124]
+mylabels= {'Caudomedial Entorhinal Cortex', 'Dorsal Intermediate Entorhinal Cortex',...
+    'Hippocampus', 'Hypothalamus', 'Septum', 'Amygdala', 'Superior Colliculus',...
+    'Cerebellum', 'Dentate Cerebellum',    'Optic Tracts', 'Fimbria',...
+    'Corpus Callosum', 'Fornix', 'Cingulum'}
+CTRL100short=CTRL100(myindex,myindex)
 
 
 %% Remove bottom 10% of data.
 %CTRL100
 k=1
+clf
 for n=0:.05:.5
     MyThresh1(k)=ceil((1-n)*(332*332-332))
     VCTRL100=CTRL100(:);
@@ -61,10 +71,13 @@ for n=0:.05:.5
     VCTRL100_10(R)=0;
     VCTRL100_10=reshape(VCTRL100_10,332,332);
     figure(2+k)
-    imagesc(VCTRL100_10)
+    %imagesc(VCTRL100_10)
+CTRL100short=VCTRL100_10(myindex,myindex)
+imagesc(CTRL100short)
     mycolormap=jet(11);
     mycolormap(6, :)=[1 1 1];
     colormap(mycolormap)
+    title(['CTRL ' num2str(n)])
     csvwrite(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\'...
         ,'ControlVol_' , num2str(n), '.csv'],VCTRL100_10);
      k=k+1
@@ -82,9 +95,12 @@ VAD100_10=VAD100;
 VAD100_10(R)=0;
 VAD100_10=reshape(VAD100_10,332,332);
 figure(13+m)
-imagesc(VAD100_10)
+%imagesc(VAD100_10)
+AD100short=VAD100_10(myindex,myindex)
+imagesc(AD100short)
 mycolormap=jet(11);
 mycolormap(6, :)=[1 1 1];
+    title(['AD ' num2str(n)])
 colormap(mycolormap);
 csvwrite(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\'...
         ,'ADVol_' , num2str(n), '.csv'],VAD100_10);

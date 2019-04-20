@@ -46,7 +46,3 @@ con2=con2out;
 deg1=numel(find(abs(con1out)>0));
 deg2=numel(find(abs(con2out)>0));
 end
-%% CHECK! Shouldn't have 12 values for threshold so don't index it? 
-% Make parameters for permconnectfunc or connectperm to run at different
-% threshold
-% threshold correlations at p<0.05 

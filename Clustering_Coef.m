@@ -8,5 +8,5 @@ ccCNTRL=clustering_coef_wd(CTRL100)
 
 %% Global Efficiency
 geAD=efficiency_wei(AD100, 0)
-geCNTRL=efficiency_wei(CTRL100, 0) 
+geCNTRL=efficiency_wei(CTRL100, 0)
 

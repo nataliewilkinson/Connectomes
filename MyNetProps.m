@@ -32,19 +32,19 @@ csvwrite(['C:\Users\natal\OneDrive - Duke University\Research\CVNconnectivity\',
 
 %% Graphing Different Regions
 clf
-myindex=[42 43 51 59 62 65 81 91 92 119 120 121 122 124]%[18 29 30 38 40 41 50 51 54 103 104 117 120 121 122 124 144 249 290] % continue it...
+myindex=[42 43 51 59 62 65 81 91 92 119 120 121 122 124]
 mylabels= {'Caudomedial Entorhinal Cortex', 'Dorsal Intermediate Entorhinal Cortex',...
     'Hippocampus', 'Hypothalamus', 'Septum', 'Amygdala', 'Superior Colliculus',...
-    'Cerebellum', 'Dentate_Cerebellum',    'Optic Tracts', 'Fimbria',...
+    'Cerebellum', 'Dentate Cerebellum',    'Optic Tracts', 'Fimbria',...
     'Corpus Callosum', 'Fornix', 'Cingulum'}
 
 for i=1:numel(myindex)
     hcNOS=mydeg1(:,myindex(i))
     hcAD=mydeg2(:,myindex(i))
 figure(i)
-plot(myseq', hcNOS,'bo')
+plot(myseq', hcNOS,'ro')
 hold on
-plot(myseq', hcAD,'r*')
+plot(myseq', hcAD,'b*')
 hold off
 
 
@@ -60,11 +60,13 @@ hold off
 % Title
 mytitle=char(mylabels(i))
 title(mytitle)
+xlabel('Network Densities')
+ylabel('Degrees of Connectivity')
 
 filename = strcat(mypath, mytitle, '.png'); 
 print(filename,'-dpng','-r300');
 
-export_fig(mylabels(i), '-png', '-r200')
+%export_fig(mylabels(i), '-png', '-r200')
 end
 
 
